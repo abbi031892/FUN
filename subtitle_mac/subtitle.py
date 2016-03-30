@@ -2,6 +2,7 @@ __author__ = 'a.jha'
 
 import Tkinter
 import tkFileDialog
+import tkMessageBox
 from plugins.the_sub_db import DBSub
 import pysrt
 from validate import Validate
@@ -38,8 +39,23 @@ class Subtitle(object):
             text = ' '.join(text.split())
             print("For file : {} Movie Text is : {}".format(file_path, text))
             if validate.validate(text):
-                return True
+                print("Found correct subtitle")
+                self._final(True)
+                return
             # os.remove(file_path)
+        self._final(False)
+
+    @staticmethod
+    def _final(result):
+        root = Tkinter.Tk()
+        root.withdraw()
+        root.update()
+        if not result:
+            tkMessageBox.showerror("Sorry", "We couldn't find a correct subtitle, although we left one there"
+                                            " for you to try?")
+        else:
+            tkMessageBox.showinfo("Thanks for trying, your subtitle is inplace")
+        root.destroy()
 
 
 def main():
