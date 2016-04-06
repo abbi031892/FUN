@@ -9,19 +9,23 @@ import codecs
 
 
 def get_hash(movie_path):
-    readsize = 64 * 1024
+    read_size = 64 * 1024
     with open(movie_path, 'rb') as f:
-        size = os.path.getsize(movie_path)
-        data = f.read(readsize)
-        f.seek(-readsize, os.SEEK_END)
-        data += f.read(readsize)
+        data = f.read(read_size)
+        f.seek(-read_size, os.SEEK_END)
+        data += f.read(read_size)
     return hashlib.md5(data).hexdigest()
 
 
 def get_file(movie_path, data):
     base_folder = '/'.join(movie_path.split('/')[0:len(movie_path.split('/')) - 1])
     file_name = '.'.join(
-        movie_path.split('/')[-1].split('.')[0:len(movie_path.split('/')[-1].split('.'))-1])
-    _file = codecs.open(os.path.join(base_folder, file_name + '.srt'), 'w+', 'utf-8')
+        movie_path.split('/')[-1].split('.')[0:len(movie_path.split('/')[-1].split('.')) - 1])
+    start_index = 1
+    changed_file_name = ''
+    while os.path.isfile(os.path.join(base_folder, file_name + '.srt')):
+        changed_file_name = file_name + str(start_index)
+        start_index += 1
+    _file = codecs.open(os.path.join(base_folder, changed_file_name + '.srt'), 'w+', 'utf-8')
     _file.write(data)
     return _file

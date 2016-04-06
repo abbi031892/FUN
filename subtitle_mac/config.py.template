@@ -1,0 +1,6 @@
+__author__ = 'a.jha'
+
+WIT_AI_KEY = ""
+GOOGLE_KEY = ""
+API_AI_CLIENT_ACCESS_TOKEN = ""
+API_AI_SUBSCRIPTION_KEY = ""
